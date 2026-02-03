@@ -35,8 +35,8 @@ src/
 │   │   ├── service/                       # Business logic
 │   │   └── exception/                     # Exception handling
 │   └── resources/
-│       ├── application.properties                # Main configuration
-│       ├── application-docker.properties         # Docker profile
+│       ├── application.properties         # Main configuration
+│       ├── application-docker.properties  # Docker profile
 │       ├── condition-rules.json           # Condition definitions
 │       ├── transformation-rules.json      # Transformation rules
 │       ├── example-input.json             # Example input message
@@ -47,21 +47,22 @@ src/
 
 ## Configuration
 
-All configuration is externalized in `application.properties`. Key settings include:
+The application uses `application.properties` for configuration. Main settings:
 
 ### Kafka Settings
 ```properties
-# Application Kafka Settings
+# Kafka topics
 app.kafka.input-topic=input-messages
 app.kafka.output-topic=output-messages
 app.kafka.consumer-group=message-processor-group
 
-# Spring Kafka Settings
+# Kafka server (can be overridden with KAFKA_BOOTSTRAP_SERVERS env var)
 spring.kafka.bootstrap-servers=localhost:9092
 ```
 
 ### Database Settings
 ```properties
+# Using H2 in-memory database for development
 spring.datasource.url=jdbc:h2:mem:messagedb
 spring.datasource.username=sa
 spring.datasource.password=
@@ -69,11 +70,12 @@ spring.datasource.password=
 
 ### Rule Files
 ```properties
+# JSON files with condition and transformation rules
 app.rules.condition-file=classpath:condition-rules.json
 app.rules.transformation-file=classpath:transformation-rules.json
 ```
 
-All settings can be overridden using environment variables (e.g., `KAFKA_BOOTSTRAP_SERVERS`, `INPUT_TOPIC`, `OUTPUT_TOPIC`).
+You can override any setting using environment variables - for example `KAFKA_BOOTSTRAP_SERVERS`, `INPUT_TOPIC`, `OUTPUT_TOPIC`.
 
 ## Condition DSL
 
