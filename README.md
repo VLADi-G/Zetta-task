@@ -35,8 +35,8 @@ src/
 │   │   ├── service/                       # Business logic
 │   │   └── exception/                     # Exception handling
 │   └── resources/
-│       ├── application.yml                # Main configuration
-│       ├── application-docker.yml         # Docker profile
+│       ├── application.properties                # Main configuration
+│       ├── application-docker.properties         # Docker profile
 │       ├── condition-rules.json           # Condition definitions
 │       ├── transformation-rules.json      # Transformation rules
 │       ├── example-input.json             # Example input message
@@ -47,36 +47,30 @@ src/
 
 ## Configuration
 
-All configuration is externalized in `application.yml`. Key settings include:
+All configuration is externalized in `application.properties`. Key settings include:
 
 ### Kafka Settings
-```yaml
-app:
-  kafka:
-    input-topic: input-messages           # Topic to consume from
-    output-topic: output-messages         # Topic to publish to
-    consumer-group: message-processor-group
+```properties
+# Application Kafka Settings
+app.kafka.input-topic=input-messages
+app.kafka.output-topic=output-messages
+app.kafka.consumer-group=message-processor-group
 
-spring:
-  kafka:
-    bootstrap-servers: localhost:9092     # Kafka broker address
+# Spring Kafka Settings
+spring.kafka.bootstrap-servers=localhost:9092
 ```
 
 ### Database Settings
-```yaml
-spring:
-  datasource:
-    url: jdbc:h2:mem:messagedb           # H2 in-memory database
-    username: sa
-    password:
+```properties
+spring.datasource.url=jdbc:h2:mem:messagedb
+spring.datasource.username=sa
+spring.datasource.password=
 ```
 
 ### Rule Files
-```yaml
-app:
-  rules:
-    condition-file: classpath:condition-rules.json
-    transformation-file: classpath:transformation-rules.json
+```properties
+app.rules.condition-file=classpath:condition-rules.json
+app.rules.transformation-file=classpath:transformation-rules.json
 ```
 
 All settings can be overridden using environment variables (e.g., `KAFKA_BOOTSTRAP_SERVERS`, `INPUT_TOPIC`, `OUTPUT_TOPIC`).
