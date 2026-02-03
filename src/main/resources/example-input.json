@@ -1,0 +1,13 @@
+{
+  "id": "msg-001",
+  "data": {
+    "user": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": 25,
+      "country": "US",
+      "status": "active",
+      "tempField": "remove-me"
+    }
+  }
+}
