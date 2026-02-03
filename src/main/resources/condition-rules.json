@@ -1,0 +1,40 @@
+{
+  "operator": "all",
+  "conditions": [
+    {
+      "field": "user.age",
+      "operator": "greaterThanOrEqual",
+      "value": 18
+    },
+    {
+      "operator": "any",
+      "conditions": [
+        {
+          "field": "user.country",
+          "operator": "equals",
+          "value": "US"
+        },
+        {
+          "field": "user.country",
+          "operator": "equals",
+          "value": "CA"
+        }
+      ]
+    },
+    {
+      "operator": "none",
+      "conditions": [
+        {
+          "field": "user.status",
+          "operator": "equals",
+          "value": "blocked"
+        },
+        {
+          "field": "user.status",
+          "operator": "equals",
+          "value": "suspended"
+        }
+      ]
+    }
+  ]
+}
