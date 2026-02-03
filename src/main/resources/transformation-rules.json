@@ -1,0 +1,9 @@
+{
+  "rules": [
+    "set data.user.age = data.user.age + 1",
+    "set data.user.fullName = data.user.firstName + \" \" + data.user.lastName",
+    "set data.processedAt = \"2026-02-03T10:00:00\"",
+    "set data.user.isAdult = true",
+    "remove data.user.tempField"
+  ]
+}
