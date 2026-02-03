@@ -2,7 +2,6 @@ package com.zetta.task.engine;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.zetta.task.exception.TransformationException;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ public class TransformationEngine {
     // Patterns for parsing transformation expressions
     private static final Pattern SET_PATTERN = Pattern.compile("set\\s+([\\w.]+)\\s*=\\s*(.+)");
     private static final Pattern REMOVE_PATTERN = Pattern.compile("remove\\s+([\\w.]+)");
-    private static final Pattern FIELD_PATTERN = Pattern.compile("([\\w.]+)");
     
     public TransformationEngine(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

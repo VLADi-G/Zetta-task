@@ -73,7 +73,7 @@ class MessageProcessorTest {
             }
             """;
         
-        JsonNode inputData = objectMapper.readTree(messagePayload);
+
         JsonNode transformedData = objectMapper.readTree("""
             {
               "id": "test-001",

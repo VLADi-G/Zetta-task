@@ -189,9 +189,6 @@ public class MessageProcessor {
      * Calculates the changes between two states
      */
     private String calculateChanges(String beforeState, String afterState) throws IOException {
-        JsonNode before = objectMapper.readTree(beforeState);
-        JsonNode after = objectMapper.readTree(afterState);
-        
         // Simple diff: just note that transformation was applied
         // In a more sophisticated implementation, this would calculate field-by-field differences
         return String.format("Transformation applied at %s", java.time.LocalDateTime.now());

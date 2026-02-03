@@ -1,6 +1,7 @@
 package com.zetta.task.exception;
 
 public class TransformationException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
     public TransformationException(String message) {
         super(message);
     }

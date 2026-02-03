@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component;
 public class ConditionEngine {
     
     private static final Logger log = LoggerFactory.getLogger(ConditionEngine.class);
-    private final ObjectMapper objectMapper;
     
-    public ConditionEngine(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ConditionEngine() {
     }
     
     /**
