@@ -15,7 +15,7 @@ class ConditionEngineTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        conditionEngine = new ConditionEngine(objectMapper);
+        conditionEngine = new ConditionEngine();
     }
     
     @Test
