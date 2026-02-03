@@ -104,8 +104,8 @@ public class TransformationEngine {
             return evaluateConcatenation(expression, data);
         }
         
-        // Handle arithmetic operations
-        if (expression.matches(".*[\\-*/].*")) {
+        // Handle arithmetic operations (check for arithmetic operators, but not in string concatenation context)
+        if (expression.matches(".*[\\-*/].*") || (expression.contains("+") && expression.matches(".*\\d+\\s*\\+\\s*\\d+.*"))) {
             return evaluateArithmetic(expression, data);
         }
         
@@ -150,8 +150,9 @@ public class TransformationEngine {
      * Evaluates arithmetic operations
      */
     private double evaluateArithmetic(String expression, JsonNode data) {
-        // Simple left-to-right evaluation
-        String[] tokens = expression.split("\\s+");
+        // Normalize spaces around operators
+        expression = expression.replaceAll("\\s*([+\\-*/])\\s*", " $1 ");
+        String[] tokens = expression.trim().split("\\s+");
         
         if (tokens.length < 3) {
             throw new TransformationException("Invalid arithmetic expression: " + expression);

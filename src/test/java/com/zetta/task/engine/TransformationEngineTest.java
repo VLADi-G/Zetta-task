@@ -54,13 +54,7 @@ class TransformationEngineTest {
     @Test
     void testSetField_CreateNewField_CreatesSuccessfully() throws Exception {
         // Given
-        String transformationJson = """
-            {
-              "rules": [
-                "set data.user.fullName = data.user.firstName + \" \" + data.user.lastName"
-              ]
-            }
-            """;
+        String transformationJson = "{\"rules\": [\"set data.user.fullName = data.user.firstName + \\\" \\\" + data.user.lastName\"]}";
         
         String dataJson = """
             {
@@ -119,13 +113,7 @@ class TransformationEngineTest {
     @Test
     void testArithmeticOperations_Addition_CalculatesCorrectly() throws Exception {
         // Given
-        String transformationJson = """
-            {
-              "rules": [
-                "set data.user.age = data.user.age + 1"
-              ]
-            }
-            """;
+        String transformationJson = "{\"rules\": [\"set data.user.age = data.user.age + 1\"]}";
         
         String dataJson = """
             {
@@ -181,15 +169,7 @@ class TransformationEngineTest {
     @Test
     void testMultipleTransformations_AppliesInOrder() throws Exception {
         // Given
-        String transformationJson = """
-            {
-              "rules": [
-                "set data.user.age = data.user.age + 1",
-                "set data.user.fullName = data.user.firstName + \" \" + data.user.lastName",
-                "remove data.user.tempData"
-              ]
-            }
-            """;
+        String transformationJson = "{\"rules\": [\"set data.user.age = data.user.age + 1\", \"set data.user.fullName = data.user.firstName + \\\" \\\" + data.user.lastName\", \"remove data.user.tempData\"]}";
         
         String dataJson = """
             {
