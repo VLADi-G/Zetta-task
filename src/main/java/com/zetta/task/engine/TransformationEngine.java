@@ -99,14 +99,29 @@ public class TransformationEngine {
             // Not a number, continue
         }
         
-        // Handle string concatenation
-        if (expression.contains("+")) {
-            return evaluateConcatenation(expression, data);
+        // Handle arithmetic operations first (non-string operators or numeric + operator)
+        if (expression.matches(".*[\\-*/].*")) {
+            return evaluateArithmetic(expression, data);
         }
         
-        // Handle arithmetic operations (check for arithmetic operators, but not in string concatenation context)
-        if (expression.matches(".*[\\-*/].*") || (expression.contains("+") && expression.matches(".*\\d+\\s*\\+\\s*\\d+.*"))) {
-            return evaluateArithmetic(expression, data);
+        // Check if + is arithmetic or concatenation
+        if (expression.contains("+")) {
+            // Try to determine if it's arithmetic by checking if all operands are numeric
+            String[] parts = expression.split("\\+");
+            boolean allNumeric = true;
+            for (String part : parts) {
+                part = part.trim();
+                if (!isNumericExpression(part, data)) {
+                    allNumeric = false;
+                    break;
+                }
+            }
+            
+            if (allNumeric) {
+                return evaluateArithmetic(expression, data);
+            } else {
+                return evaluateConcatenation(expression, data);
+            }
         }
         
         // Handle field reference
@@ -129,6 +144,30 @@ public class TransformationEngine {
     }
     
     /**
+     * Checks if an expression would resolve to a numeric value
+     */
+    private boolean isNumericExpression(String expression, JsonNode data) {
+        expression = expression.trim();
+        
+        // String literals are not numeric
+        if (expression.startsWith("\"") && expression.endsWith("\"")) {
+            return false;
+        }
+        
+        // Numeric literals
+        try {
+            Double.parseDouble(expression);
+            return true;
+        } catch (NumberFormatException e) {
+            // Not a number literal, continue
+        }
+        
+        // Field reference
+        JsonNode value = getFieldValue(data, expression);
+        return value != null && (value.isInt() || value.isDouble() || value.isNumber());
+    }
+    
+    /**
      * Evaluates string concatenation
      */
     private String evaluateConcatenation(String expression, JsonNode data) {
@@ -137,9 +176,23 @@ public class TransformationEngine {
         
         for (String part : parts) {
             part = part.trim();
-            Object value = evaluateExpression(part, data);
+            
+            // Handle string literals
+            if (part.startsWith("\"") && part.endsWith("\"")) {
+                result.append(part.substring(1, part.length() - 1));
+                continue;
+            }
+            
+            // Handle field reference
+            JsonNode value = getFieldValue(data, part);
             if (value != null) {
-                result.append(value);
+                if (value.isTextual()) {
+                    result.append(value.asText());
+                } else {
+                    result.append(value.toString());
+                }
+            } else {
+                result.append(part); // Fallback to literal text
             }
         }
         
