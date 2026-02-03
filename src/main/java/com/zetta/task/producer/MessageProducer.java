@@ -1,14 +1,15 @@
 package com.zetta.task.producer;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 public class MessageProducer {
     
+    private static final Logger log = LoggerFactory.getLogger(MessageProducer.class);
     private final KafkaTemplate<String, String> kafkaTemplate;
     
     @Value("${app.kafka.output-topic}")

@@ -9,7 +9,8 @@ import com.zetta.task.model.StateDelta;
 import com.zetta.task.producer.MessageProducer;
 import com.zetta.task.repository.MessageStateRepository;
 import com.zetta.task.repository.StateDeltaRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,9 +21,10 @@ import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.UUID;
 
-@Slf4j
 @Service
 public class MessageProcessor {
+    
+    private static final Logger log = LoggerFactory.getLogger(MessageProcessor.class);
     
     private final ConditionEngine conditionEngine;
     private final TransformationEngine transformationEngine;
@@ -38,8 +40,8 @@ public class MessageProcessor {
     @Value("${app.rules.transformation-file}")
     private String transformationRulesPath;
     
-    private JsonNode conditionRules;
-    private JsonNode transformationRules;
+    JsonNode conditionRules;
+    JsonNode transformationRules;
     
     public MessageProcessor(
             ConditionEngine conditionEngine,
@@ -153,9 +155,11 @@ public class MessageProcessor {
         String stateJson = objectMapper.writeValueAsString(data);
         
         MessageState state = messageStateRepository.findByMessageId(messageId)
-                .orElse(MessageState.builder()
-                        .messageId(messageId)
-                        .build());
+                .orElseGet(() -> {
+                    MessageState newState = new MessageState();
+                    newState.setMessageId(messageId);
+                    return newState;
+                });
         
         state.setCurrentState(stateJson);
         state = messageStateRepository.save(state);
@@ -171,12 +175,11 @@ public class MessageProcessor {
         // Calculate changes
         String changes = calculateChanges(beforeState, afterState);
         
-        StateDelta delta = StateDelta.builder()
-                .messageStateId(messageStateId)
-                .beforeState(beforeState)
-                .afterState(afterState)
-                .changes(changes)
-                .build();
+        StateDelta delta = new StateDelta();
+        delta.setMessageStateId(messageStateId);
+        delta.setBeforeState(beforeState);
+        delta.setAfterState(afterState);
+        delta.setChanges(changes);
         
         stateDeltaRepository.save(delta);
         log.debug("Delta persisted for message state ID: {}", messageStateId);

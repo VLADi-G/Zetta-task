@@ -3,15 +3,14 @@ package com.zetta.task.engine;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zetta.task.exception.ConditionException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
-@Slf4j
 @Component
 public class ConditionEngine {
     
+    private static final Logger log = LoggerFactory.getLogger(ConditionEngine.class);
     private final ObjectMapper objectMapper;
     
     public ConditionEngine(ObjectMapper objectMapper) {

@@ -1,40 +1,40 @@
 {
-  "operator": "all",
-  "conditions": [
-    {
-      "field": "user.age",
-      "operator": "greaterThanOrEqual",
-      "value": 18
-    },
-    {
-      "operator": "any",
-      "conditions": [
+    "operator": "all",
+    "conditions": [
         {
-          "field": "user.country",
-          "operator": "equals",
-          "value": "US"
+            "field": "user.age",
+            "operator": "greaterThanOrEqual",
+            "value": 18
         },
         {
-          "field": "user.country",
-          "operator": "equals",
-          "value": "CA"
-        }
-      ]
-    },
-    {
-      "operator": "none",
-      "conditions": [
-        {
-          "field": "user.status",
-          "operator": "equals",
-          "value": "blocked"
+            "operator": "any",
+            "conditions": [
+                {
+                    "field": "user.country",
+                    "operator": "equals",
+                    "value": "US"
+                },
+                {
+                    "field": "user.country",
+                    "operator": "equals",
+                    "value": "CA"
+                }
+            ]
         },
         {
-          "field": "user.status",
-          "operator": "equals",
-          "value": "suspended"
+            "operator": "none",
+            "conditions": [
+                {
+                    "field": "user.status",
+                    "operator": "equals",
+                    "value": "blocked"
+                },
+                {
+                    "field": "user.status",
+                    "operator": "equals",
+                    "value": "suspended"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

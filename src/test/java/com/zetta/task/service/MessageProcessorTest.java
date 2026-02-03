@@ -86,11 +86,10 @@ class MessageProcessorTest {
             }
             """);
         
-        MessageState mockState = MessageState.builder()
-                .id(1L)
-                .messageId("test-001")
-                .currentState(objectMapper.writeValueAsString(transformedData))
-                .build();
+        MessageState mockState = new MessageState();
+        mockState.setId(1L);
+        mockState.setMessageId("test-001");
+        mockState.setCurrentState(objectMapper.writeValueAsString(transformedData));
         
         // Mock rule loading (simplified for test)
         messageProcessor.conditionRules = objectMapper.createObjectNode();
@@ -160,11 +159,10 @@ class MessageProcessorTest {
         
         JsonNode transformedData = objectMapper.readTree(messagePayload);
         
-        MessageState existingState = MessageState.builder()
-                .id(1L)
-                .messageId("test-003")
-                .currentState("{}")
-                .build();
+        MessageState mockState = new MessageState();
+        mockState.setId(1L);
+        mockState.setMessageId("test-003");
+        mockState.setCurrentState("{}");
         
         // Mock rule loading
         messageProcessor.conditionRules = objectMapper.createObjectNode();
@@ -172,8 +170,8 @@ class MessageProcessorTest {
         
         when(conditionEngine.evaluate(any(JsonNode.class), any(JsonNode.class))).thenReturn(true);
         when(transformationEngine.apply(any(JsonNode.class), any(JsonNode.class))).thenReturn(transformedData);
-        when(messageStateRepository.findByMessageId("test-003")).thenReturn(Optional.of(existingState));
-        when(messageStateRepository.save(any(MessageState.class))).thenReturn(existingState);
+        when(messageStateRepository.findByMessageId("test-003")).thenReturn(Optional.of(mockState));
+        when(messageStateRepository.save(any(MessageState.class))).thenReturn(mockState);
         
         // When
         messageProcessor.processMessage(messagePayload);
